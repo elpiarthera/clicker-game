@@ -29,7 +29,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">Welcome to Meme Tribes Battle</h1>
         
         <p className="text-xl mb-2">The game is on the <Link href="/clicker" className="underline">Clicker</Link> page.</p>
-        <p className="text-xl mb-6">Developed by <Link href="https://www.youtube.com" target="_blank" className="underline">Nikandr Surkov</Link>.</p>
+        <p className="text-xl mb-6">Developed by <Link href="https://www.youtube.com" target="_blank" className="underline">Future Synch</Link>.</p>
         
         <div className="flex items-center space-x-2">
           <IceCube className="w-8 h-8 animate-pulse" />
