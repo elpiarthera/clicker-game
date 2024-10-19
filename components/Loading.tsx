@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
@@ -22,13 +22,14 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
 
   const fetchOrCreateUser = useCallback(async () => {
     try {
-      let initData, telegramId, username, telegramName, startParam;
+      let initData = ""; // Default value as empty string
+      let telegramId, username, telegramName, startParam;
 
       if (typeof window !== 'undefined') {
         const WebApp = (await import('@twa-dev/sdk')).default;
         WebApp.ready();
-        initData = WebApp.initData;
-        telegramId = WebApp.initDataUnsafe.user?.id.toString();
+        initData = WebApp.initData ?? ""; // Fallback to an empty string if undefined
+        telegramId = WebApp.initDataUnsafe.user?.id?.toString();
         username = WebApp.initDataUnsafe.user?.username || 'Unknown User';
         telegramName = WebApp.initDataUnsafe.user?.first_name || 'Unknown User';
 
@@ -58,8 +59,8 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
       console.log("user data: ", userData);
 
       const initialState: InitialGameState = {
-        userTelegramInitData: initData,
-        userTelegramName: telegramName,
+        userTelegramInitData: initData, // Now safely assigned
+        userTelegramName: telegramName || 'Unknown User',  // Ensure it's always a string
         lastClickTimestamp: userData.lastPointsUpdateTimestamp,
         gameLevelIndex: calculateLevelIndex(userData.points),
         points: userData.points,
