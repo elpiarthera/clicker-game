@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
 import Image, { StaticImageData } from 'next/image';
@@ -7,7 +7,7 @@ import { useGameStore } from '@/utils/game-mechanics';
 import { baseGift, bigGift } from '@/images';
 import IceCube from '@/icons/IceCube';
 import { formatNumber, triggerHapticFeedback } from '@/utils/ui';
-import { REFERRAL_BONUS_BASE, REFERRAL_BONUS_PREMIUM, LEVELS } from '@/utils/consts'; // LEVELS from consts
+import { REFERRAL_BONUS_BASE, REFERRAL_BONUS_PREMIUM, LEVELS } from '@/utils/consts';
 import { getUserTelegramId } from '@/utils/user';
 import Copy from '@/icons/Copy';
 import { useToast } from '@/contexts/ToastContext';
@@ -26,7 +26,7 @@ interface Referral {
 export default function Friends() {
   const showToast = useToast();
   const { userTelegramInitData } = useGameStore();
-  const [copyButtonText, setCopyButtonText] = useState("Copy");
+  const [copyButtonText, setCopyButtonText] = useState('Copy');
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [referralCount, setReferralCount] = useState(0);
   const [isLoadingReferrals, setIsLoadingReferrals] = useState(true);
@@ -34,7 +34,7 @@ export default function Friends() {
 
   const handleShowBonusesList = useCallback(() => {
     triggerHapticFeedback(window);
-    setShowBonusesList(prevState => !prevState);
+    setShowBonusesList((prevState) => !prevState);
   }, []);
 
   const fetchReferrals = useCallback(async () => {
@@ -66,19 +66,23 @@ export default function Friends() {
 
   const handleCopyInviteLink = useCallback(() => {
     triggerHapticFeedback(window);
-    navigator.clipboard
-      .writeText(process.env.NEXT_PUBLIC_BOT_USERNAME ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${getUserTelegramId(userTelegramInitData) || ""}` : "https://t.me/MMTBClickerGame_bot/game")
-      .then(() => {
-        setCopyButtonText("Copied!");
-        showToast("Invite link copied to clipboard!", 'success');
+    const telegramId = getUserTelegramId(userTelegramInitData);
+    const inviteLink = process.env.NEXT_PUBLIC_BOT_USERNAME
+      ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${telegramId || ''}`
+      : 'https://t.me/MMTBClickerGame_bot/game';
 
+    navigator.clipboard
+      .writeText(inviteLink)
+      .then(() => {
+        setCopyButtonText('Copied!');
+        showToast('Invite link copied to clipboard!', 'success');
         setTimeout(() => {
-          setCopyButtonText("Copy");
+          setCopyButtonText('Copy');
         }, 2000);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Failed to copy text: ', err);
-        showToast("Failed to copy link. Please try again.", 'error');
+        showToast('Failed to copy link. Please try again.', 'error');
       });
   }, [userTelegramInitData, showToast]);
 
@@ -87,8 +91,8 @@ export default function Friends() {
     const userTelegramId = getUserTelegramId(userTelegramInitData);
 
     const inviteLink = botUsername
-      ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${userTelegramId || ""}`
-      : "https://t.me/MMTBClickerGame_bot/game";
+      ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${userTelegramId || ''}`
+      : 'https://t.me/MMTBClickerGame_bot/game';
 
     const shareText = `🎮 Join me in Meme Tribe Battle: Tap, Earn, Refer and Win! 🏆\n🚀 Let's play and earn together!`;
 
@@ -99,14 +103,12 @@ export default function Friends() {
       utils.openTelegramLink(fullUrl);
     } catch (error) {
       console.error('Error opening Telegram link:', error);
-      showToast("Failed to open sharing dialog. Please try again.", 'error');
+      showToast('Failed to open sharing dialog. Please try again.', 'error');
 
       // Fallback: copy the invite link to clipboard
-      navigator.clipboard.writeText(inviteLink)
-        .then(() => showToast("Invite link copied to clipboard instead", 'success'))
-        .catch(() => showToast("Failed to share or copy invite link", 'error'));
+      handleCopyInviteLink(); // If sharing fails, copy to clipboard instead
     }
-  }, [userTelegramInitData, showToast]);
+  }, [userTelegramInitData, showToast, handleCopyInviteLink]);
 
   return (
     <div className="bg-black flex justify-center min-h-screen">
@@ -126,7 +128,9 @@ export default function Friends() {
                         <span className="font-medium">Invite a friend</span>
                         <div className="flex items-center">
                           <IceCube className="w-6 h-6" />
-                          <span className="ml-1 text-white"><span className="text-[#f3ba2f]">+{formatNumber(REFERRAL_BONUS_BASE)}</span> for you and your friend</span>
+                          <span className="ml-1 text-white">
+                            <span className="text-[#f3ba2f]">+{formatNumber(REFERRAL_BONUS_BASE)}</span> for you and your friend
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -139,7 +143,9 @@ export default function Friends() {
                         <span className="font-medium">Invite a friend with Telegram Premium</span>
                         <div className="flex items-center">
                           <IceCube className="w-6 h-6" />
-                          <span className="ml-1 text-white"><span className="text-[#f3ba2f]">+{formatNumber(REFERRAL_BONUS_PREMIUM)}</span> for you and your friend</span>
+                          <span className="ml-1 text-white">
+                            <span className="text-[#f3ba2f]">+{formatNumber(REFERRAL_BONUS_PREMIUM)}</span> for you and your friend
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -150,7 +156,7 @@ export default function Friends() {
                   onClick={handleShowBonusesList}
                   className="block w-full mt-4 text-center text-blue-500"
                 >
-                  {showBonusesList ? "Hide" : "More bonuses"}
+                  {showBonusesList ? 'Hide' : 'More bonuses'}
                 </button>
 
                 {showBonusesList && (
@@ -253,7 +259,7 @@ export default function Friends() {
                     className="w-12 h-12 bg-blue-500 rounded-lg text-white font-bold flex items-center justify-center"
                     onClick={handleCopyInviteLink}
                   >
-                    {copyButtonText === "Copied!" ? "✓" : <Copy />}
+                    {copyButtonText === 'Copied!' ? '✓' : <Copy />}
                   </button>
                 </div>
               </div>
