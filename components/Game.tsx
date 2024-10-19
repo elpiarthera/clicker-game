@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import NextImage, { ImageProps } from 'next/image';
 import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin, lightning } from '@/images';
 import memebux2 from '@/images/memebux2.png'; // Import the MemeBux icon
 import Rocket from '@/icons/Rocket';
@@ -11,15 +11,18 @@ import Link from 'next/link';
 import { useGameStore } from '@/utils/game-mechanics';
 import Snowflake from '@/icons/Snowflake';
 import TopInfoSection from '@/components/TopInfoSection';
-import { LEVELS } from '@/utils/consts';
+import { LEVELS, LevelData } from '@/utils/consts';
 import { triggerHapticFeedback } from '@/utils/ui';
 
 interface GameProps {
   currentView: string;
   setCurrentView: (view: string) => void;
+  points: number;
+  memeLevel: LevelData;
+  setPoints: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function Game({ currentView, setCurrentView }: GameProps) {
+export default function Game({ currentView, setCurrentView, points, memeLevel, setPoints }: GameProps) {
 
   const [isAnimationEnabled, setIsAnimationEnabled] = useState(true);
 
@@ -46,7 +49,6 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
   const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
 
   const {
-    points,
     pointsBalance,
     pointsPerClick,
     energy,
@@ -128,6 +130,10 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
     const nextLevelMin = LEVELS[gameLevelIndex + 1].minPoints;
     const progress = ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
     return Math.min(progress, 100);
+  };
+
+  const Image = (props: ImageProps) => {
+    return <NextImage {...props} />;
   };
 
   return (

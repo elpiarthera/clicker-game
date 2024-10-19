@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback, ReactNode } from 'react';
+import React, { useState, useEffect, useCallback, ReactNode, ErrorInfo } from 'react';
 import Game from '@/components/Game';
 import Mine from '@/components/Mine';
 import Friends from '@/components/Friends';
@@ -8,17 +8,50 @@ import Earn from '@/components/Earn';
 import Airdrop from '@/components/Airdrop';
 import Navigation from '@/components/Navigation';
 import LoadingScreen from '@/components/Loading';
-import { energyUpgradeBaseBenefit, LEVELS } from '@/utils/consts';  // Import LEVELS for meme levels
+import { LEVELS, LevelData } from '@/utils/consts';  // Import LEVELS for meme levels
 import Boost from '@/components/Boost';
 import { AutoIncrement } from '@/components/AutoIncrement';
 import { PointSynchronizer } from '@/components/PointSynchronizer';
 import Settings from '@/components/Settings';
 
+function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBoundary: () => void}) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  )
+}
+
+class ErrorBoundary extends React.Component<{children: ReactNode}, {hasError: boolean}> {
+  constructor(props: {children: ReactNode}) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.log('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorFallback error={new Error('Something went wrong')} resetErrorBoundary={() => this.setState({ hasError: false })} />;
+    }
+
+    return this.props.children;
+  }
+}
+
 function ClickerPage() {
     const [currentView, setCurrentViewState] = useState<string>('loading');
     const [isInitialized, setIsInitialized] = useState(false);
     const [points, setPoints] = useState(0); // Add state to track user points
-    const [memeLevel, setMemeLevel] = useState({ name: 'Ice Cube Intern', smallImage: '' }); // Initial meme level
+    const [memeLevel, setMemeLevel] = useState<LevelData>(LEVELS[0]); // Initial meme level
 
     const setCurrentView = (newView: string) => {
         console.log('Changing view to:', newView);
@@ -26,7 +59,6 @@ function ClickerPage() {
     };
 
     const calculateMemeLevel = useCallback(() => {
-        // Calculate meme level based on points
         const levelIndex = LEVELS.findIndex(level => points >= level.minPoints) || 0;
         setMemeLevel(LEVELS[levelIndex]);
     }, [points]);
@@ -98,37 +130,6 @@ function ClickerPage() {
             )}
         </div>
     );
-}
-
-interface ErrorBoundaryProps {
-    children: ReactNode;
-}
-
-interface ErrorBoundaryState {
-    hasError: boolean;
-}
-
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps) {
-        super(props);
-        this.state = { hasError: false };
-    }
-
-    static getDerivedStateFromError(_: Error): ErrorBoundaryState {
-        return { hasError: true };
-    }
-
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        console.log('Error caught by boundary:', error, errorInfo);
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
-        }
-
-        return this.props.children;
-    }
 }
 
 export default function ClickerPageWithErrorBoundary() {
