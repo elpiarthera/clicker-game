@@ -1,4 +1,6 @@
 /**
+ * Task data for the Ice community
+ */
 export const earnData = [
     {
       category: "Ice Youtube",
@@ -82,5 +84,5 @@ export const earnData = [
           isActive: true  
         }
       ]
-    },
-  ];
+    }
+  ]
