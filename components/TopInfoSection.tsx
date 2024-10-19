@@ -1,4 +1,3 @@
-// components/TopInfoSection.tsx
 'use client'
 
 import { useToast } from '@/contexts/ToastContext';
@@ -20,8 +19,19 @@ export default function TopInfoSection({ isGamePage = false, setCurrentView }: T
     const {
         userTelegramName,
         gameLevelIndex,
-        profitPerHour
+        profitPerHour,
+        points // Add points from game state
     } = useGameStore();
+
+    // Calculate progress towards the next meme level
+    const currentLevel = LEVELS[gameLevelIndex];
+    const nextLevel = LEVELS[gameLevelIndex + 1] || null; // Check for next level
+
+    const pointsForCurrentLevel = currentLevel.minPoints;
+    const pointsForNextLevel = nextLevel ? nextLevel.minPoints : null;
+    const levelProgress = pointsForNextLevel 
+        ? ((points - pointsForCurrentLevel) / (pointsForNextLevel - pointsForCurrentLevel)) * 100
+        : 100; // 100% if there is no next level
 
     const handleSettingsClick = () => {
         triggerHapticFeedback(window);
@@ -33,11 +43,9 @@ export default function TopInfoSection({ isGamePage = false, setCurrentView }: T
             <div className="flex items-center justify-between space-x-4 mt-4">
                 <div className="flex items-center w-1/3">
                     <div className="flex items-center space-x-2">
-                        <div className="p-1 rounded-lg bg-[#1d2025]">
-                            <Image src={LEVELS[gameLevelIndex].smallImage} width={24} height={24} alt="Small Level Icon" />
-                        </div>
+                        {/* Removed the level icon before the user name */}
                         <div>
-                            <p className="text-sm">{userTelegramName}</p>
+                            <p className="text-sm">{userTelegramName || "Unknown User"}</p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +63,7 @@ export default function TopInfoSection({ isGamePage = false, setCurrentView }: T
                         </>
                     }
                     <div className="flex-1 text-center">
-                        <p className="text-xs text-[#85827d] font-medium whitespace-nowrap overflow-hidden text-ellipsis">Ice per hour</p>
+                        <p className="text-xs text-[#85827d] font-medium whitespace-nowrap overflow-hidden text-ellipsis">MemeBux per hour</p>
                         <div className="flex items-center justify-center space-x-1">
                             <IceCubes size={20} />
                             <p className="text-sm">+{formatNumber(profitPerHour)}</p>
@@ -74,6 +82,26 @@ export default function TopInfoSection({ isGamePage = false, setCurrentView }: T
                         </>
                     }
                 </div>
+            </div>
+
+            {/* Meme-Level Progress Section */}
+            <div className="mt-4 flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                    <Image src={currentLevel.smallImage} width={32} height={32} alt="Current Meme Level" />
+                    <p className="text-sm">Level: {currentLevel.name}</p>
+                </div>
+                {nextLevel && (
+                    <div className="flex flex-col items-end">
+                        <p className="text-sm text-gray-400">Next: {nextLevel.name}</p>
+                        <div className="w-full bg-gray-600 rounded-full h-2 relative">
+                            <div
+                                className="bg-green-500 h-2 rounded-full"
+                                style={{ width: `${levelProgress}%` }}
+                            ></div>
+                            <p className="absolute right-2 text-xs text-gray-300">{Math.floor(levelProgress)}%</p> {/* Added percentage */}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

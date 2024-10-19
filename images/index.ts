@@ -7,7 +7,7 @@ import dailyCipher from "./daily-cipher.png";
 import dailyCombo from "./daily-combo.png";
 import mainCharacter from "./main-character.png";
 import hamsterCoin from "./hamster-coin.png";
-import iceToken from "./ice-token.png";
+import iceToken from "./mmtb-token.png";
 import lightning from "./lightning.png";
 import battery from "./battery.png";
 import multiclick from "./multiclick.png";

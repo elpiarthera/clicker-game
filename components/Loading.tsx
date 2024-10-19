@@ -1,10 +1,9 @@
-// components/Loading.tsx
 'use client'
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { botUrlQr, mainCharacter } from '@/images';
-import IceCube from '@/icons/IceCube';
+import memebux2 from '@/images/memebux2.png';  // Import the new icon
 import { calculateEnergyLimit, calculateLevelIndex, calculatePointsPerClick, calculateProfitPerHour, GameState, InitialGameState, useGameStore } from '@/utils/game-mechanics';
 import WebApp from '@twa-dev/sdk';
 import UAParser from 'ua-parser-js';
@@ -21,7 +20,6 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
   const openTimestampRef = useRef(Date.now());
   const [isAppropriateDevice, setIsAppropriateDevice] = useState(true);
 
-
   const fetchOrCreateUser = useCallback(async () => {
     try {
       let initData, telegramId, username, telegramName, startParam;
@@ -36,7 +34,6 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
 
         startParam = WebApp.initDataUnsafe.start_param;
       }
-
 
       const referrerTelegramId = startParam ? startParam.replace('kentId', '') : null;
 
@@ -60,15 +57,6 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
 
       console.log("user data: ", userData);
 
-      // Check if initData and telegramName are defined
-      if (!initData) {
-        throw new Error('initData is undefined');
-      }
-      if (!telegramName) {
-        throw new Error('telegramName is undefined');
-      }
-
-      // Create the game store with fetched data
       const initialState: InitialGameState = {
         userTelegramInitData: initData,
         userTelegramName: telegramName,
@@ -89,13 +77,10 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
         tonWalletAddress: userData?.tonWalletAddress,
       };
 
-      console.log("Initial state: ", initialState);
-
       initializeState(initialState);
       setIsDataLoaded(true);
     } catch (error) {
       console.error('Error fetching user data:', error);
-      // Handle error (e.g., show error message to user)
     }
   }, [initializeState]);
 
@@ -162,12 +147,31 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
           </div>
         </div>
 
-        <h1 className="text-3xl font-bold mb-4">Loading Ton Ice</h1>
+        <h1 className="text-3xl font-bold mb-4">Loading Meme Tribe Battle Game</h1>
 
+        {/* Replacing IceCube with memebux2 */}
         <div className="flex items-center space-x-2">
-          <IceCube className="w-8 h-8 animate-pulse" />
-          <IceCube className="w-8 h-8 animate-pulse delay-100" />
-          <IceCube className="w-8 h-8 animate-pulse delay-200" />
+          <Image
+            src={memebux2}
+            alt="Loading Icon"
+            width={64}  // Increase the size of the icon
+            height={64}
+            className="animate-bounce"
+          />
+          <Image
+            src={memebux2}
+            alt="Loading Icon"
+            width={64}  // Increase the size of the icon
+            height={64}
+            className="animate-bounce delay-100"
+          />
+          <Image
+            src={memebux2}
+            alt="Loading Icon"
+            width={64}  // Increase the size of the icon
+            height={64}
+            className="animate-bounce delay-200"
+          />
         </div>
       </div>
     </div>

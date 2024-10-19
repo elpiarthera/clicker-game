@@ -1,7 +1,6 @@
-// components/Earn.tsx
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import IceCube from '@/icons/IceCube';
 import { useGameStore } from '@/utils/game-mechanics';
@@ -10,6 +9,7 @@ import { imageMap } from '@/images';
 import Time from '@/icons/Time';
 import TaskPopup from './popups/TaskPopup';
 import { Task } from '@/utils/types';
+import { LEVELS } from '@/utils/consts'; // Import LEVELS for meme-level rewards
 
 const useFetchTasks = (userTelegramInitData: string) => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -67,6 +67,22 @@ export default function Earn() {
     }, {} as Record<string, Task[]>);
   }, [tasks]);
 
+  // Function to display the additional meme-level reward if applicable, excluding "Ice Cube Intern"
+  const getMemeLevelReward = (points: number) => {
+    const levelIndex = LEVELS.findIndex(level => points >= level.minPoints) || 0;
+    const level = LEVELS[levelIndex];
+
+    // Exclude meme level display for "Ice Cube Intern" (adjust this check according to your LEVELS config)
+    if (level.name === "Ice Cube Intern") return null;
+
+    return (
+      <div className="flex items-center mt-1">
+        <Image src={level.smallImage} alt={level.name} width={24} height={24} className="mr-2 rounded-lg" />
+        <span className="text-sm text-gray-400">Meme Level: {level.name}</span>
+      </div>
+    );
+  };
+
   return (
     <div className="bg-black flex justify-center min-h-screen">
       <div className="w-full bg-black text-white font-bold flex flex-col max-w-xl">
@@ -77,7 +93,7 @@ export default function Earn() {
                 <div className="flex justify-center mb-4">
                   <IceCube className="w-24 h-24 mx-auto" />
                 </div>
-                <h1 className="text-2xl text-center mb-4">Earn More Ice</h1>
+                <h1 className="text-2xl text-center mb-4">Earn More MemeBux</h1>
 
                 {isLoading ? (
                   <div className="text-center text-gray-400">Loading tasks...</div>
@@ -100,6 +116,7 @@ export default function Earn() {
                                   <IceCube className="w-6 h-6 mr-1" />
                                   <span className="text-white">+{formatNumber(task.points)}</span>
                                 </div>
+                                {getMemeLevelReward(task.points)}
                               </div>
                             </div>
                             {task.isCompleted ? (

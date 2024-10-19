@@ -6,7 +6,7 @@ import Mine from '@/icons/Mine';
 import Friends from '@/icons/Friends';
 import Coins from '@/icons/Coins';
 import { iceToken } from '@/images';
-import IceCube from '@/icons/IceCube';
+import memebux2 from '@/images/memebux2.png'; // Add this line to import MemeBux image
 import Rocket from '@/icons/Rocket';
 import { FC } from 'react';
 import { IconProps } from '@/utils/types';
@@ -20,7 +20,7 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-    { name: 'Game', icon: IceCube, view: 'game' },
+    { name: 'Game', image: memebux2, view: 'game' }, // Replace IceCube with MemeBux image
     { name: 'Mine', icon: Mine, view: 'mine' },
     { name: 'Friends', icon: Friends, view: 'friends' },
     { name: 'Earn', icon: Coins, view: 'earn' },

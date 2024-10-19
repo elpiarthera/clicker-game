@@ -52,7 +52,7 @@ export const earnData = [
           callToAction: "Join channel",
           type: "TELEGRAM",
           taskData: {
-            link: "https://t.me/clicker_game_news",
+            link: "https://t.me/MMTBClickerGame_bot/game",
             chatId: "clicker_game_news"
           },
           isActive: true  

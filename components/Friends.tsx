@@ -1,4 +1,3 @@
-// components/Friends.tsx
 'use client'
 
 import React, { useState, useCallback, useEffect } from 'react';
@@ -8,7 +7,7 @@ import { useGameStore } from '@/utils/game-mechanics';
 import { baseGift, bigGift } from '@/images';
 import IceCube from '@/icons/IceCube';
 import { formatNumber, triggerHapticFeedback } from '@/utils/ui';
-import { REFERRAL_BONUS_BASE, REFERRAL_BONUS_PREMIUM, LEVELS } from '@/utils/consts';
+import { REFERRAL_BONUS_BASE, REFERRAL_BONUS_PREMIUM, LEVELS } from '@/utils/consts'; // LEVELS from consts
 import { getUserTelegramId } from '@/utils/user';
 import Copy from '@/icons/Copy';
 import { useToast } from '@/contexts/ToastContext';
@@ -26,11 +25,8 @@ interface Referral {
 
 export default function Friends() {
   const showToast = useToast();
-
   const { userTelegramInitData } = useGameStore();
   const [copyButtonText, setCopyButtonText] = useState("Copy");
-  const [isLoading, setIsLoading] = useState(false);
-  const [buttonText, setButtonText] = useState("Invite a friend");
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [referralCount, setReferralCount] = useState(0);
   const [isLoadingReferrals, setIsLoadingReferrals] = useState(true);
@@ -71,7 +67,7 @@ export default function Friends() {
   const handleCopyInviteLink = useCallback(() => {
     triggerHapticFeedback(window);
     navigator.clipboard
-      .writeText(process.env.NEXT_PUBLIC_BOT_USERNAME ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${getUserTelegramId(userTelegramInitData) || ""}` : "https://t.me/clicker_game_news")
+      .writeText(process.env.NEXT_PUBLIC_BOT_USERNAME ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${getUserTelegramId(userTelegramInitData) || ""}` : "https://t.me/MMTBClickerGame_bot/game")
       .then(() => {
         setCopyButtonText("Copied!");
         showToast("Invite link copied to clipboard!", 'success');
@@ -92,9 +88,9 @@ export default function Friends() {
 
     const inviteLink = botUsername
       ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${userTelegramId || ""}`
-      : "https://t.me/clicker_game_news";
+      : "https://t.me/MMTBClickerGame_bot/game";
 
-    const shareText = `🎮 Join me in TonIce: Tap, Earn, and Win! 🏆\n🚀 Let's play and earn together!`;
+    const shareText = `🎮 Join me in Meme Tribe Battle: Tap, Earn, Refer and Win! 🏆\n🚀 Let's play and earn together!`;
 
     try {
       triggerHapticFeedback(window);
@@ -169,7 +165,9 @@ export default function Friends() {
                         <span>Premium</span>
                       </div>
                     </div>
-                    {LEVELS.slice(1).map((level, index) => (
+
+                    {/* Dynamically display levels */}
+                    {LEVELS.map((level, index) => (
                       <div key={index} className="flex items-center bg-[#272a2f] rounded-lg p-4">
                         <div className="flex items-center flex-1">
                           <Image src={level.smallImage} alt={level.name} width={40} height={40} className="rounded-lg mr-2" />

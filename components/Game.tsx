@@ -4,8 +4,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin, lightning } from '@/images';
-import IceCube from '@/icons/IceCube';
-import IceCubes from '@/icons/IceCubes';
+import memebux2 from '@/images/memebux2.png'; // Import the MemeBux icon
 import Rocket from '@/icons/Rocket';
 import Energy from '@/icons/Energy';
 import Link from 'next/link';
@@ -76,7 +75,6 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
     return `${paddedHours}:${paddedMinutes}`;
   };
 
-
   const handleInteraction = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
     e.preventDefault(); // Prevent default behavior
 
@@ -141,10 +139,10 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
           <div className="mt-[2px] bg-[#1d2025] rounded-t-[46px] h-full overflow-y-auto no-scrollbar">
             <div className="px-4 pt-1 pb-24">
 
-
+              {/* Updated Image Section */}
               <div className="px-4 mt-4 flex justify-center">
                 <div className="px-4 py-2 flex items-center space-x-2">
-                  <IceCubes className="w-12 h-12 mx-auto" />
+                  <Image src={memebux2} alt="MemeBux Icon" width={48} height={48} className="mx-auto" />
                   <p className="text-4xl text-white" suppressHydrationWarning >{Math.floor(pointsBalance).toLocaleString()}</p>
                 </div>
               </div>
@@ -175,9 +173,18 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
                   </div>
                 </div>
               </div>
+
               <div className="flex justify-between px-4 mt-4">
-                <p className="flex justify-center items-center gap-1"><Image src={lightning} alt="Exchange" width={40} height={40} /><span className="flex flex-col"><span className="text-xl font-bold">{energy}</span><span className="text-base font-medium">/ {maxEnergy}</span></span></p>
-                <button onClick={() => handleViewChange("boost")} className="flex justify-center items-center gap-1"><Rocket size={40} /><span className="text-xl">Boost</span></button>
+                <p className="flex justify-center items-center gap-1">
+                  <Image src={lightning} alt="Exchange" width={40} height={40} />
+                  <span className="flex flex-col">
+                    <span className="text-xl font-bold">{energy}</span>
+                    <span className="text-base font-medium">/ {maxEnergy}</span>
+                  </span>
+                </p>
+                <button onClick={() => handleViewChange("boost")} className="flex justify-center items-center gap-1">
+                  <Rocket size={40} /><span className="text-xl">Boost</span>
+                </button>
               </div>
 
               <div className="w-full px-4 text-sm mt-2">
@@ -188,12 +195,12 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
                 </div>
               </div>
 
-
             </div>
           </div>
         </div>
       </div>
 
+      {/* Click Animation Update */}
       {clicks.map((click) => (
         <div
           key={click.id}
@@ -205,9 +212,9 @@ export default function Game({ currentView, setCurrentView }: GameProps) {
           }}
           onAnimationEnd={() => handleAnimationEnd(click.id)}
         >
-          {pointsPerClick}<IceCube className="w-12 h-12 mx-auto" />
+          {pointsPerClick}<Image src={memebux2} alt="MemeBux Icon" width={48} height={48} />
         </div>
       ))}
     </div>
-  )
+  );
 }

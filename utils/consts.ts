@@ -18,86 +18,95 @@ export interface LevelData {
 
 export const LEVELS: LevelData[] = [
   {
-    name: "Ice Cube Intern",
+    name: "Meme Newbie",  // Updated name
     minPoints: 0,
     bigImage: mainCharacter,
-    smallImage: crystal1,
-    color: "#2adaf8",
+    smallImage: crystal1,  // Replace with appropriate image
+    color: "#7FFF00",  // Light green
     friendBonus: 0,
     friendBonusPremium: 0,
   },
   {
-    name: "Frosty Freelancer",
-    minPoints: 5000,
+    name: "GIF Jockey",  // Updated name
+    minPoints: 5000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal2,
-    color: "#d64767",
-    friendBonus: 20000,
-    friendBonusPremium: 25000,
+    smallImage: crystal2,  // Replace with appropriate image
+    color: "#FFD700",  // Yellow
+    friendBonus: 5000,  // Updated friend bonuses
+    friendBonusPremium: 10000,
   },
   {
-    name: "Chilly Consultant",
-    minPoints: 25000,
+    name: "Meme Scout",  // Updated name
+    minPoints: 25000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal3,
-    color: "#e9c970",
-    friendBonus: 30000,
-    friendBonusPremium: 50000,
+    smallImage: crystal3,  // Replace with appropriate image
+    color: "#00BFFF",  // Sky blue
+    friendBonus: 10000,  // Updated friend bonuses
+    friendBonusPremium: 20000,
   },
   {
-    name: "Glacial Manager",
-    minPoints: 100000,
+    name: "Viral Rookie",  // Updated name
+    minPoints: 100000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal4,
-    color: "#73e94b",
-    friendBonus: 40000,
-    friendBonusPremium: 75000,
+    smallImage: crystal4,  // Replace with appropriate image
+    color: "#FFA500",  // Orange
+    friendBonus: 20000,  // Updated friend bonuses
+    friendBonusPremium: 40000,
   },
   {
-    name: "Subzero Supervisor",
-    minPoints: 1000000,
+    name: "Dank Dealer",  // Updated name
+    minPoints: 1000000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal5,
-    color: "#4ef0ba",
-    friendBonus: 60000,
+    smallImage: crystal5,  // Replace with appropriate image
+    color: "#FFD700",  // Gold
+    friendBonus: 50000,  // Updated friend bonuses
     friendBonusPremium: 100000,
   },
   {
-    name: "Arctic Executive",
-    minPoints: 2000000,
+    name: "Meme Mystic",  // Updated name
+    minPoints: 2500000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal6,
-    color: "#1a3ae8",
-    friendBonus: 100000,
+    smallImage: crystal6,  // Replace with appropriate image
+    color: "#9932CC",  // Purple
+    friendBonus: 100000,  // Updated friend bonuses
     friendBonusPremium: 150000,
   },
   {
-    name: "Polar CEO",
-    minPoints: 10000000,
+    name: "Laugh Lord",  // Updated name
+    minPoints: 10000000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal7,
-    color: "#902bc9",
-    friendBonus: 250000,
-    friendBonusPremium: 500000,
+    smallImage: crystal7,  // Replace with appropriate image
+    color: "#8B0000",  // Dark red
+    friendBonus: 200000,  // Updated friend bonuses
+    friendBonusPremium: 300000,
   },
   {
-    name: "Tundra Tycoon",
-    minPoints: 50000000,
+    name: "Troll Boss",  // Updated name
+    minPoints: 25000000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal8,
-    color: "#fb8bee",
-    friendBonus: 500000,
+    smallImage: crystal8,  // Replace with appropriate image
+    color: "#006400",  // Dark green
+    friendBonus: 400000,  // Updated friend bonuses
+    friendBonusPremium: 600000,
+  },
+  {
+    name: "Meme Titan",  // Updated name
+    minPoints: 50000000,  // Updated points
+    bigImage: mainCharacter,
+    smallImage: crystal9,  // Replace with appropriate image
+    color: "#7DF9FF",  // Electric blue
+    friendBonus: 750000,  // Updated friend bonuses
     friendBonusPremium: 1000000,
   },
   {
-    name: "Iceberg Mogul",
-    minPoints: 100000000,
+    name: "Cosmic Memelord",  // Updated name
+    minPoints: 100000000,  // Updated points
     bigImage: mainCharacter,
-    smallImage: crystal9,
-    color: "#e04e92",
-    friendBonus: 1000000,
+    smallImage: crystal9,  // Replace with appropriate image
+    color: "#0F0F0F",  // Cosmic black
+    friendBonus: 1000000,  // Updated friend bonuses
     friendBonusPremium: 2000000,
-  }
+  },
 ];
 
 export const DAILY_REWARDS = [
@@ -121,7 +130,6 @@ export const TASK_WAIT_TIME = 60 * 60 * 1000; // 1 hour in milliseconds
 
 export const REFERRAL_BONUS_BASE = 5000;
 export const REFERRAL_BONUS_PREMIUM = 25000;
-
 
 // Multitap
 export const multitapUpgradeBasePrice = 1000;

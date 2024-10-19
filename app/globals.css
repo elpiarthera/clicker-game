@@ -6,7 +6,6 @@ html, body {
   background-color: #000000;
 }
 
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -120,3 +119,34 @@ html, body {
     transform: scale(1.05);
   }
 }
+
+/* --- New styles for meme-level icons and visual elements --- */
+
+/* Meme-Level Badge */
+.meme-level {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem; /* small text */
+  color: #9ca3af; /* gray-400 */
+  margin-top: 0.25rem; /* small margin */
+}
+
+/* Meme-Level Icon */
+.meme-level-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+  border-radius: 0.375rem; /* small rounded corners */
+}
+
+/* Custom layout for ice points and meme-level */
+.task-reward {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.task-reward .ice-icon {
+  margin-right: 0.25rem;
+}
+
