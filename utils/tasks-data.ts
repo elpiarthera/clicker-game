@@ -1,5 +1,5 @@
 /**
- * Task data for the Ice community
+ * Task data for the MMTB community
  */
 export const earnData = [
     {

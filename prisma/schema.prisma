@@ -1,12 +1,15 @@
+// Define your database provider and connection URL
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+// Client generator for Prisma
 generator client {
   provider = "prisma-client-js"
 }
 
+// User model representing the main player entity
 model User {
   id                        String   @id @default(auto()) @map("_id") @db.ObjectId
   telegramId                String   @unique
@@ -30,25 +33,32 @@ model User {
   referrals                 User[]   @relation("Referrals")
   referredBy                User?    @relation("Referrals", fields: [referredById], references: [id], onDelete: NoAction, onUpdate: NoAction)
   referredById              String?  @db.ObjectId
-  
-  // Tasks
-  completedTasks UserTask[]
+
+  // Relation to UserTask (tasks completed by the user)
+  completedTasks            UserTask[]
 }
 
+// Task model representing the available tasks in the game
 model Task {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   title        String
   description  String
-  points       Int
+  points       Int        // You can choose to deprecate or remove this later in favor of the Reward model
   type         TaskType
   category     String
   image        String
   callToAction String
   taskData     Json?
   isActive     Boolean    @default(true)
+
+  // Relation to UserTask (tasks assigned to users)
   userTasks    UserTask[]
+
+  // Relation to Reward (tasks can have multiple rewards)
+  rewards      Reward[]   @relation("TaskRewards")
 }
 
+// UserTask model representing the relation between users and tasks (tracks completed tasks)
 model UserTask {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   user               User     @relation(fields: [userId], references: [id])
@@ -62,8 +72,33 @@ model UserTask {
   @@unique([userId, taskId])
 }
 
+// Enum for different task types (VISIT, TELEGRAM, REFERRAL)
 enum TaskType {
   VISIT
   TELEGRAM
   REFERRAL
+}
+
+// Reward model to support multiple types of rewards for tasks
+model Reward {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   // Title of the reward
+  description String   // Description of the reward
+  type        RewardType  // Type of the reward (XP, NFT, Token, Booster, Mystery Box)
+  amount      Int      // Amount of the reward (can represent points, tokens, etc.)
+  image       String?  // Optional image for the reward (e.g., icon or thumbnail)
+  isActive    Boolean  @default(true)  // Indicates if the reward is active or not
+
+  // Relation to Task (many rewards can belong to one task)
+  task        Task     @relation("TaskRewards", fields: [taskId], references: [id], onDelete: Cascade)
+  taskId      String   @db.ObjectId
+}
+
+// Enum to define different types of rewards
+enum RewardType {
+  XP
+  NFT
+  TOKEN
+  BOOSTER
+  MYSTERY_BOX
 }

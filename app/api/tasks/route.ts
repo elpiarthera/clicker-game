@@ -33,9 +33,10 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Fetch only active tasks
+    // Fetch only active tasks and include rewards
     const activeTasks = await prisma.task.findMany({
       where: { isActive: true },
+      include: { rewards: true },  // Include the rewards for each task
     });
 
     // Fetch valid UserTask entries for this user, only for active tasks
@@ -52,11 +53,20 @@ export async function GET(req: Request) {
       },
     });
 
-    // Prepare the response data
+    // Prepare the response data, ensuring tasks are mapped with rewards and user task info
     const tasksData = activeTasks.map(task => {
       const userTask = validUserTasks.find(ut => ut.taskId === task.id);
       return {
-        ...task,
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        type: task.type,
+        category: task.category,
+        image: task.image,
+        callToAction: task.callToAction,
+        taskData: task.taskData,
+        isActive: task.isActive,
+        rewards: task.rewards, // Include rewards for each task
         taskStartTimestamp: userTask?.taskStartTimestamp || null,
         isCompleted: userTask?.isCompleted || false,
       };
