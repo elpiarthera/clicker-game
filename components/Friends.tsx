@@ -64,9 +64,17 @@ export default function Friends() {
     fetchReferrals();
   }, [fetchReferrals]);
 
+  // Debugging log to check if userTelegramInitData is correct
+  console.log('userTelegramInitData:', userTelegramInitData);
+
   const handleCopyInviteLink = useCallback(() => {
     triggerHapticFeedback(window);
+
     const telegramId = getUserTelegramId(userTelegramInitData) || ''; // Ensure valid telegramId
+
+    // Debugging log to check if telegramId is correct
+    console.log('Generated telegramId:', telegramId);
+
     const inviteLink = process.env.NEXT_PUBLIC_BOT_USERNAME
       ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${telegramId}`
       : 'https://t.me/MMTBClickerGame_bot/game';
@@ -89,6 +97,9 @@ export default function Friends() {
   const handleInviteFriend = useCallback(() => {
     const botUsername = process.env.NEXT_PUBLIC_BOT_USERNAME;
     const userTelegramId = getUserTelegramId(userTelegramInitData) || ''; // Ensure valid telegramId
+
+    // Debugging log to check if userTelegramId is correct
+    console.log('Sharing telegramId:', userTelegramId);
 
     const inviteLink = botUsername
       ? `https://t.me/${botUsername}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${userTelegramId}`
