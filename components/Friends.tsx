@@ -66,9 +66,9 @@ export default function Friends() {
 
   const handleCopyInviteLink = useCallback(() => {
     triggerHapticFeedback(window);
-    const telegramId = getUserTelegramId(userTelegramInitData);
+    const telegramId = getUserTelegramId(userTelegramInitData) || ''; // Ensure valid telegramId
     const inviteLink = process.env.NEXT_PUBLIC_BOT_USERNAME
-      ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${telegramId || ''}`
+      ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${telegramId}`
       : 'https://t.me/MMTBClickerGame_bot/game';
 
     navigator.clipboard
@@ -88,10 +88,10 @@ export default function Friends() {
 
   const handleInviteFriend = useCallback(() => {
     const botUsername = process.env.NEXT_PUBLIC_BOT_USERNAME;
-    const userTelegramId = getUserTelegramId(userTelegramInitData);
+    const userTelegramId = getUserTelegramId(userTelegramInitData) || ''; // Ensure valid telegramId
 
     const inviteLink = botUsername
-      ? `https://t.me/${process.env.NEXT_PUBLIC_BOT_USERNAME}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${userTelegramId || ''}`
+      ? `https://t.me/${botUsername}/${process.env.NEXT_PUBLIC_APP_URL_SHORT_NAME}?startapp=kentId${userTelegramId}`
       : 'https://t.me/MMTBClickerGame_bot/game';
 
     const shareText = `🎮 Join me in Meme Tribe Battle: Tap, Earn, Refer and Win! 🏆\n🚀 Let's play and earn together!`;
